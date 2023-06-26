@@ -1,15 +1,11 @@
 pose_estimation:
     ros__parameters:
-        pattern: "ARUCO"
-        image_topic: "/camera/image"
-        camera_info_topic: "/camera/camera_info"
-        publish_image_topic: "/image/detected"
-        width: 3
-        height: 4
-        dictionary: "DICT_4X4_50"
-        chessboard_square_size: 0.026
-        circle_grid_seperation: 0.035
-        aruco_board_marker_size: 0.0256
-        aruco_board_marker_seperation: 0.0066
+        pattern: CHARUCO
+        image_topic: /rgb/image_raw
+        camera_info_topic: /rgb/camera_info
+        publish_image_topic: /image/detected
+        width: 5
+        height: 7
+        dictionary: DICT_6X6_250
         charuco_board_marker_size: 0.022
-        charuco_board_square_size: 0.03
+        charuco_board_square_size: 0.037

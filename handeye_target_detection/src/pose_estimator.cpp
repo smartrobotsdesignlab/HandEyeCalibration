@@ -119,7 +119,7 @@ PoseEstimator::PoseEstimator(std::shared_ptr<rclcpp::Node>& node, std::string pa
 
   // Initialize camera intrinsic parameters
   camera_matrix_ = cv::Mat::eye(3, 3, CV_64F);
-  dist_coeffs_ = cv::Mat::zeros(5, 1, CV_64F);
+  dist_coeffs_ = cv::Mat::zeros(8, 1, CV_64F);
 }
 
 void PoseEstimator::imageCB_CHESSBOARD(const sensor_msgs::msg::Image::ConstSharedPtr& msg)
@@ -420,7 +420,7 @@ void PoseEstimator::caminfoCB(const sensor_msgs::msg::CameraInfo::SharedPtr msg)
 {
   if (!run_)
   {
-    if (msg->k.size() == 9 && msg->d.size() == 5)
+    if (msg->k.size() == 9 && msg->d.size() == 8)
     {
       // Store camera matrix info
       for (size_t i = 0; i < 3; i++)
@@ -428,7 +428,7 @@ void PoseEstimator::caminfoCB(const sensor_msgs::msg::CameraInfo::SharedPtr msg)
           camera_matrix_.at<double>(i, j) = msg->k[i * 3 + j];
 
       // Store camera distortion info
-      for (size_t i = 0; i < 5; i++)
+      for (size_t i = 0; i < 8; i++)
         dist_coeffs_.at<double>(i, 0) = msg->d[i];
 
       // Set the flag to start processing the image

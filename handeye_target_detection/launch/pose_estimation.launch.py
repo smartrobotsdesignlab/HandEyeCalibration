@@ -12,25 +12,52 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import os
-
 import launch
-import launch.actions
-import launch.substitutions
-import launch_ros.actions
+from launch.actions import DeclareLaunchArgument
+from launch_ros.actions import Node
+from launch.substitutions import  PathJoinSubstitution, LaunchConfiguration
 from ament_index_python.packages import get_package_share_directory
+from launch_ros.substitutions import FindPackageShare
 
 def generate_launch_description():
+    # Declare arguments
+    declared_arguments = []
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "runtime_config_package",
+            default_value="handeye_target_detection",
+            description='Package with the calibration bord\'s configuration in "launch" folder. \
+        Usually the argument is not set, it enables use of a custom setup.',
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "config_file",
+            default_value="pose_estimation.yaml",
+            description="YAML file with the calibration board configuration.",
+        )
+    )
+    # Initialize Arguments
+    runtime_config_package = LaunchConfiguration("runtime_config_package")
+    config_file = LaunchConfiguration("config_file")
 
     # .yaml file for configuring the parameters
-    yaml = os.path.join(
-        get_package_share_directory('handeye_target_detection'), 
-            'launch', 'pose_estimation.yaml'
+    detection_config_file = PathJoinSubstitution(
+        [
+            FindPackageShare(runtime_config_package),
+            "launch",
+            config_file,
+        ]
     )
 
-    return launch.LaunchDescription([
 
-        launch_ros.actions.Node(
-            package='handeye_target_detection', executable='pose_estimation', 
-            output='screen', arguments=['__params:='+yaml]),
-    ])
+    estimation_node = Node(
+        package="handeye_target_detection",
+        executable="pose_estimation",
+        output="screen",
+        parameters=[detection_config_file],
+    )
+
+    nodes = [estimation_node]
+
+    return launch.LaunchDescription(declared_arguments + nodes)

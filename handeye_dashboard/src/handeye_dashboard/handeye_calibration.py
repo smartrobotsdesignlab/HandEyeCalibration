@@ -112,7 +112,7 @@ class HandEyeCalibration(Plugin):
     self.l1.setFixedWidth(150)
     self.l1.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
     self.camera_frame = QLineEdit(self.widget)
-    self.camera_frame.setText("camera_link")
+    self.camera_frame.setText("rgb_camera_link")
     self.toolbar1 = QToolBar()
     self.toolbar1.addWidget(self.l1)
     self.toolbar1.addWidget(self.camera_frame)
@@ -123,7 +123,7 @@ class HandEyeCalibration(Plugin):
     self.l2.setFixedWidth(150)
     self.l2.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
     self.object_frame = QLineEdit(self.widget)
-    self.object_frame.setText("L_ati_sensor_link")
+    self.object_frame.setText("calib_board")
     self.toolbar2 = QToolBar()
     self.toolbar2.addWidget(self.l2)
     self.toolbar2.addWidget(self.object_frame)
@@ -135,7 +135,7 @@ class HandEyeCalibration(Plugin):
     self.l3.setFixedWidth(150)
     self.l3.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
     self.base_frame = QLineEdit(self.widget)
-    self.base_frame.setText("L_base_link")
+    self.base_frame.setText("robot_base_link")
     self.toolbar3 = QToolBar()
     self.toolbar3.addWidget(self.l3)
     self.toolbar3.addWidget(self.base_frame)
@@ -146,7 +146,7 @@ class HandEyeCalibration(Plugin):
     self.l4.setFixedWidth(150)
     self.l4.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
     self.endeffector_frame = QLineEdit(self.widget)
-    self.endeffector_frame.setText("L_hand_link")
+    self.endeffector_frame.setText("R_hand_link")
     self.toolbar4 = QToolBar()
     self.toolbar4.addWidget(self.l4)
     self.toolbar4.addWidget(self.endeffector_frame)
@@ -343,9 +343,14 @@ class HandEyeCalibration(Plugin):
 
     self.publish_tf_transform(static_transformStamped)
 
+    # To Eular
+    euler = br.transform.to_euler(bTc)
+
+    # Save the camera-robot transform to file
     output_string = "camera-robot pose:\n"
     output_string += "  Translation: [{}, {}, {}]\n".format(bTc[0,3], bTc[1,3], bTc[2,3])
-    output_string += "  Rotation: in Quaternion [{}, {}, {}, {}]".format(q[0], q[1], q[2], q[3])
+    output_string += "  Rotation: in Quaternion [{}, {}, {}, {}]\n".format(q[0], q[1], q[2], q[3])
+    output_string += "  Rotation: in RPY (radian) [{}, {}, {}]\n".format(euler[0], euler[1], euler[2])
     file_path = '/tmp/' + 'camera-robot.txt'
     with open(file_path, 'w') as f:
       f.write(output_string)
