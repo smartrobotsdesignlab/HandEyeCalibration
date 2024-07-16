@@ -1,8 +1,8 @@
 pose_estimation:
     ros__parameters:
         pattern: CHARUCO
-        image_topic: /table/camera/color/image_raw
-        camera_info_topic: /table/camera/color/camera_info
+        image_topic: /top/camera/color/image_raw
+        camera_info_topic: /top/camera/color/camera_info
         publish_image_topic: /image/detected
         width: 5
         height: 7
