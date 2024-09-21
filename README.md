@@ -33,7 +33,7 @@ The parameters descripiton:
 
 ## How to use
 
-After change the configuration file, please remember `colcon build` the workspace, default ros2 didn't update the yaml files automatically.
+After change the configuration file, please remember `colcon build` the workspace, default ros2 dosen't update the yaml files automatically.
 
 *Moveit is recommanded here. Remember to switch the trajectory controller for moveit.*
 
