@@ -73,7 +73,7 @@ The result file is on the `/tmp/camera-robot.txt`, it saves the transformations,
 
 ## Something should be noted
 
-The result usually could not directed used, such as this matrix multiplying a point on the camera frame. It might be some error on the rotation. For example, the realsense, it has camera_color_frame, and camera_optical_frame.
+The result usually could not be directly used, such as this matrix multiplying a point on the camera frame. It might be some error on the rotation. For example, the realsense, it has camera_color_frame, and camera_optical_frame.
 
 You could show these frames on the rviz2 for better understanding.
 
