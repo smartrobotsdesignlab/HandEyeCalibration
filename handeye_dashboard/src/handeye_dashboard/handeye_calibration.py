@@ -146,7 +146,7 @@ class HandEyeCalibration(Plugin):
     self.l4.setFixedWidth(150)
     self.l4.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
     self.endeffector_frame = QLineEdit(self.widget)
-    self.endeffector_frame.setText("R_hand_link")
+    self.endeffector_frame.setText("R_end_link")
     self.toolbar4 = QToolBar()
     self.toolbar4.addWidget(self.l4)
     self.toolbar4.addWidget(self.endeffector_frame)
